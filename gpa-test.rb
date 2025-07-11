@@ -50,12 +50,8 @@ class Calculator
   def gpa
     return nil if grades.empty?
     
-    valid_grades = grades.map { |grade| grade_point(grade) }.compact
-
-    return nil if valid_grades.empty?
-    
-    grade_total = valid_grades.sum(0.0)
-    avg = (grade_total / valid_grades.length).round(1)
+    grade_total = grades.map { |grade| grade_point(grade) }.sum(0.0)
+    avg = (grade_total / grades.length).round(1)
     
   end
 
@@ -105,7 +101,7 @@ tests = [
 
 # Think about how you might solve these tests too
 # extra_tests = [
-#   { in: { name: 'Non-grades',  grades: ["N"] } },
+#   { in: { name: 'Non-grades',  grades: ["N"] } }, # 
 #   { in: { name: 'Non-strings',  grades: ["A", :B] } },
 #   { in: { name: 'Empty',  grades: [] } },
 #   { in: { name: 'Numbers',  grades: [1, 2] } },
