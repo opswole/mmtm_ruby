@@ -101,12 +101,19 @@ tests = [
 
 # Think about how you might solve these tests too
 # extra_tests = [
-#   { in: { name: 'Non-grades',  grades: ["N"] } }, # 
+#   { in: { name: 'Non-grades',  grades: ["N"] } },  
 #   { in: { name: 'Non-strings',  grades: ["A", :B] } },
 #   { in: { name: 'Empty',  grades: [] } },
 #   { in: { name: 'Numbers',  grades: [1, 2] } },
 #   { in: { name: 'Passed a string',  grades: "A A-" } },
 # ]
+#
+## Extra test thoughts:
+## 1. Return nil if not in grades, return GPA of valid values with flag re invalid value (probably an "invalid array" or a simple "invalid values omitted" message)
+## 2. Cast .to_s, should match if valid, if no, point 1 behaviour
+## 3. Early return if .empty?
+## 4. Could evaluate against the grade values and return if valid. if grades.value?(num) return num
+## 5. Split string on whitespace, iterate on new array, rejecting those != to grades keys
 
 tests.each do |test|
   user = Calculator.new(test[:in][:name], test[:in][:grades])
