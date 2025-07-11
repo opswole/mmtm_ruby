@@ -81,7 +81,7 @@ class Calculator
       'U'  => -1.0
     }.freeze
 
-    grades[grade.to_s] || nil 
+    grades[grade.to_s]  
   end
 end
 
