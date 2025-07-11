@@ -48,11 +48,40 @@ class Calculator
   end
 
   def gpa
-    0
+    grade_total = grades.map { |grade| grade_point(grade) }.sum(0.0)
+    avg = grade_total / grades.length
+    p avg
   end
 
   def announcement
-    ""
+    p name
+    "#{name} scores an average of #{}"
+  end
+
+  private
+
+  def grade_point grade
+    grades = {
+      'A'  => 4.0,
+      'A-' => 3.7,
+      'B+' => 3.3,
+      'B'  => 3.0,
+      'B-' => 2.7,
+      'C+' => 2.3,
+      'C'  => 2.0,
+      'C-' => 1.7,
+      'D+' => 1.3,
+      'D'  => 1.0,
+      'D-' => 0.7,
+      'E+' => 0.5,
+      'E'  => 0.2,
+      'E-' => 0.1,
+      'F'  => 0.0,
+      'U'  => -1.0
+    }.freeze
+
+    grades[grade]
+
   end
 end
 
@@ -63,9 +92,9 @@ tests = [
   { in: { name: 'Beryl',  grades: ["A", "B", "C"] }, out: { gpa: 3.1, announcement: "Beryl scored an average of 3.1"  } },
   { in: { name: 'Chris',  grades: ["B-", "C+"] }, out: { gpa: 2.5, announcement: "Chris scored an average of 2.5"  } },
   { in: { name: 'Dan',  grades: ["A", "A-", "B-"] }, out: { gpa: 3.5, announcement: "Dan scored an average of 3.5"  } },
-  { in: { name: 'Emma',  grades: ["A", "B+", "F"] }, out: { gpa: 2.4, announcement: "Beryl scored an average of 2.4"  } },
-  { in: { name: 'Frida',  grades: ["E", "E-"] }, out: { gpa: 0.3, announcement: "Beryl scored an average of 0.3"  } },
-  { in: { name: 'Gary',  grades: ["U", "U", "B+"] }, out: { gpa: 0.4, announcement: "Beryl scored an average of 0.4"  } },
+  { in: { name: 'Emma',  grades: ["A", "B+", "F"] }, out: { gpa: 2.4, announcement: "Emma scored an average of 2.4"  } },
+  { in: { name: 'Frida',  grades: ["E", "E-"] }, out: { gpa: 0.3, announcement: "Frida scored an average of 0.3"  } },
+  { in: { name: 'Gary',  grades: ["U", "U", "B+"] }, out: { gpa: 0.4, announcement: "Gary scored an average of 0.4"  } },
 ]
 
 # Think about how you might solve these tests too
