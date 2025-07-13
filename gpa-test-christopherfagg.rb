@@ -42,7 +42,7 @@
 class Calculator
   attr_reader :name, :grades
 
-  # Initialise once & freeze, no need to create on every gpa call
+  # Initialise once & freeze, no need to create on every gpa call, '' over "" because interpolation etc not necessary, no need to read for it.
   GRADES = {
       'A'  => 4.0,
       'A-' => 3.7,
