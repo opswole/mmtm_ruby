@@ -42,27 +42,8 @@
 class Calculator
   attr_reader :name, :grades
 
-  def initialize(name, grades)
-    @name = name
-    @grades = grades
-  end
-
-  def gpa
-    return nil if grades.empty?
-    
-    grade_total = grades.map { |grade| grade_point(grade) }.sum(0.0)
-    avg = (grade_total / grades.length).round(1)
-    
-  end
-
-  def announcement
-    "#{name} scored an average of #{gpa}"
-  end
-
-  private
-
-  def grade_point grade
-    grades = {
+  # Initialise once & freeze, no need to create on every gpa call
+  GRADES = {
       'A'  => 4.0,
       'A-' => 3.7,
       'B+' => 3.3,
@@ -81,14 +62,37 @@ class Calculator
       'U'  => -1.0
     }.freeze
 
-    grades[grade.to_s]  
+
+  def initialize(name, grades)
+    @name = name
+    @grades = grades
+  end
+
+  def gpa
+    return nil if grades.empty?
+    
+    # Drop nil values from arr if grade_point returns nothing
+    grade_total = grades.map { |grade| grade_point(grade) }.compact
+    return nil if grade_total.empty?
+
+    # Round to one decimal place for output
+    average = (grade_total.sum / grade_total.count).round(1) 
+  end
+
+  def announcement
+    "#{name} scored an average of #{gpa}"
+  end
+
+  private
+
+  def grade_point grade
+    GRADES[grade]  
   end
 end
 
 ## Tests
 # Beryl amended to 3.0 based on (4+3+2) / 3 = 3
 # Frida amended to 0.2 based on (0.2+0.1) / 2 = 0.15 -> 0.2
-
 tests = [
   { in: { name: 'Andy',  grades: ["A"] }, out: { gpa: 4, announcement: "Andy scored an average of 4.0"  } },
   { in: { name: 'Beryl',  grades: ["A", "B", "C"] }, out: { gpa: 3.0, announcement: "Beryl scored an average of 3.0"  } }, 
@@ -107,12 +111,12 @@ tests = [
 #   { in: { name: 'Numbers',  grades: [1, 2] } },
 #   { in: { name: 'Passed a string',  grades: "A A-" } },
 # ]
-#
+
 ## Extra test thoughts:
-## 1. Return nil if not in grades, return GPA of valid values with flag re invalid value (probably an "invalid array" or a simple "invalid values omitted" message)
+## 1. Return nil if not in grades, return GPA of valid values with flag re invalid value, probably an "invalid array" or a simple "invalid values omitted" message.
 ## 2. Cast .to_s, should match if valid, if no, point 1 behaviour
 ## 3. Early return if .empty?
-## 4. Could evaluate against the grade values and return if valid. if grades.value?(num) return num
+## 4. Could evaluate against the grade values and return if valid. if grades.value?(num) return num (though on principle I'd probably flag and expect strict letter input. Confusion potential re positional logic with should 4 relate to 4th in list of key with value 4.)
 ## 5. Split string on whitespace, iterate on new array, rejecting those != to grades keys
 
 tests.each do |test|
