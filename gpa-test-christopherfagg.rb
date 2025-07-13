@@ -76,7 +76,7 @@ class Calculator
     return nil if grade_total.empty?
 
     # Round to one decimal place for output
-    average = (grade_total.sum / grade_total.count).round(1) 
+    (grade_total.sum / grade_total.count).round(1) 
   end
 
   def announcement
